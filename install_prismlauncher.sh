@@ -15,8 +15,8 @@ run_sudo() {
     echo "$PASSWORD" | sudo -S "$@"
 }
 
-echo "1. Menginstall dependensi yang dibutuhkan (JDK 17 & Vulkan Headers)..."
-run_sudo pacman -S --needed --noconfirm git base-devel jdk17-openjdk vulkan-headers
+echo "1. Menginstall dependensi yang dibutuhkan (JDK 17, Vulkan, Wayland, Adwaita)..."
+run_sudo pacman -S --needed --noconfirm git base-devel jdk17-openjdk vulkan-headers qt6-wayland adwaita-qt6
 
 echo "2. Mengatur Java ke versi 17 untuk proses build..."
 run_sudo archlinux-java set java-17-openjdk
@@ -42,7 +42,12 @@ makepkg -si --noconfirm
 echo "6. Mengembalikan versi Java ke default ($CURRENT_JAVA)..."
 run_sudo archlinux-java set "$CURRENT_JAVA"
 
-echo "7. Membersihkan file sisa..."
+echo "7. Mengonfigurasi integrasi GNOME (Wayland & Adwaita)..."
+mkdir -p ~/.local/share/applications/
+cp /usr/share/applications/org.prismlauncher.PrismLauncher.desktop ~/.local/share/applications/
+sed -i 's\|Exec=prismlauncher %U\|Exec=env WAYLAND_DISPLAY= QT_WAYLAND_DECORATION=adwaita QT_QPA_PLATFORMTHEME=adwaita prismlauncher %U\|' ~/.local/share/applications/org.prismlauncher.PrismLauncher.desktop
+
+echo "8. Membersihkan file sisa..."
 cd "$HOME"
 rm -rf "$BUILD_DIR"
 

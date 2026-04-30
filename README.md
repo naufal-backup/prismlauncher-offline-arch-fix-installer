@@ -8,8 +8,9 @@ This script addresses several issues that currently cause the `prismlauncher-off
 
 1.  **Version Mismatch:** Fixes the error where the PKGBUILD points to version `10.0.2` which no longer exists in the source repository. It updates the build to version `11.0.2`.
 2.  **Java Compatibility:** Fixes compilation errors caused by the removal of the `java.applet` package in newer OpenJDK versions (e.g., JDK 26). The script temporarily switches to **JDK 17** for the build process.
-3.  **Missing Dependencies:** Automatically installs `vulkan-headers` which is required for the `HardwareInfo` component but often missing from build dependencies.
-4.  **Automatic Sudo:** Designed to run with minimal intervention using a predefined password (can be modified in the script).
+3.  **Missing Dependencies:** Automatically installs `vulkan-headers` which is required for the `HardwareInfo` component.
+4.  **GNOME Integration:** Applies a specific environment configuration (`WAYLAND_DISPLAY=`, `QT_WAYLAND_DECORATION=adwaita`, `QT_QPA_PLATFORMTHEME=adwaita`) to ensure proper window decorations and stability on GNOME.
+5.  **Automatic Sudo:** Designed to run with minimal intervention using a predefined password.
 
 ## 🚀 Usage
 
